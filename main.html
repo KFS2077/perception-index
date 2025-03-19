@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="title">Artificial Intelligence Perception Index</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS animation library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 侧边栏导航 -->
+    <nav class="sidebar-nav">
+        <ul>
+            <li>
+                <a href="#hero">
+                    <span class="nav-icon"><i class="fas fa-home"></i></span>
+                    <span class="nav-text" data-i18n="navHome">首页</span>
+                </a>
+            </li>
+            <li>
+                <a href="#stats">
+                    <span class="nav-icon"><i class="fas fa-chart-bar"></i></span>
+                    <span class="nav-text" data-i18n="navStats">统计</span>
+                </a>
+            </li>
+            <li>
+                <a href="#professions">
+                    <span class="nav-icon"><i class="fas fa-briefcase"></i></span>
+                    <span class="nav-text" data-i18n="navProfessions">职业</span>
+                </a>
+            </li>
+            <li>
+                <a href="#comments">
+                    <span class="nav-icon"><i class="fas fa-comments"></i></span>
+                    <span class="nav-text" data-i18n="navComments">留言</span>
+                </a>
+            </li>
+            <li>
+                <a href="#data-analysis">
+                    <span class="nav-icon"><i class="fas fa-chart-pie"></i></span>
+                    <span class="nav-text" data-i18n="navAnalysis">分析</span>
+                </a>
+            </li>
+            <li>
+                <a href="#recent-activity">
+                    <span class="nav-icon"><i class="fas fa-history"></i></span>
+                    <span class="nav-text" data-i18n="navActivity">活动</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <i class="fas fa-brain logo-icon"></i>
+                <h1 data-i18n="navTitle">AGI感知指数</h1>
+            </div>
+            <div class="nav-right">
+                <div class="language-selector">
+                    <select id="language-select">
+                        <option value="en" selected>English</option>
+                        <option value="zh">中文</option>
+                        <option value="es">Español</option>
+                        <option value="fr">Français</option>
+                        <option value="de">Deutsch</option>
+                        <option value="ja">日本語</option>
+                    </select>
+                </div>
+                <div class="theme-toggle">
+                    <i class="fas fa-moon" id="theme-toggle-icon"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Loading animation overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Hero Section with Parallax Effect -->
+    <header class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content" data-aos="fade-up">
+                <div class="hero-text-content">
+                    <h1 data-i18n="heroTitle">人工智能感知指数</h1>
+                    <p data-i18n="heroSubtitle">探索不同职业人群对AI的感知程度</p>
+                    <div class="search-container">
+                        <input type="text" id="search-input" data-i18n-placeholder="searchPlaceholder" placeholder="搜索职业...">
+                        <button id="search-button"><i class="fas fa-search"></i></button>
+                    </div>
+                    <div id="search-results" class="search-results"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Stats Dashboard -->
+        <section class="stats-dashboard" id="stats">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-card" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="stat-icon"><i class="fas fa-vote-yea"></i></div>
+                        <h3 data-i18n="totalVotes">总投票数</h3>
+                        <p id="total-votes" class="stat-value">加载中...</p>
+                    </div>
+                    <div class="stat-card" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="stat-icon"><i class="fas fa-brain"></i></div>
+                        <h3 data-i18n="avgPerception">平均感知指数</h3>
+                        <p id="avg-perception" class="stat-value">加载中...</p>
+                    </div>
+                    <div class="stat-card" data-aos="zoom-in" data-aos-delay="300">
+                        <div class="stat-icon"><i class="fas fa-users"></i></div>
+                        <h3 data-i18n="professionCount">覆盖职业数</h3>
+                        <p id="profession-count" class="stat-value">加载中...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Popular Professions Section -->
+        <section class="popular-professions" id="professions">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-right">
+                    <i class="fas fa-fire"></i> <span data-i18n="popularProfessions">热门职业</span>
+                    <button class="add-button" id="add-profession-button" data-action="showAddProfessionModal">
+                        <i class="fas fa-plus"></i> <span data-i18n="addProfession">添加职业</span>
+                    </button>
+                </h2>
+                <div id="popular-list" class="profession-grid">
+                    <div class="loading" data-i18n="loading">加载中...</div>
+                </div>
+                <!-- Infinite scroll loading indicator -->
+                <div id="profession-loader" class="loader-container">
+                    <div class="loader-dots">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scrolling Comments Section -->
+        <section class="comments-wall" id="comments">
+            <div class="comments-banner-wrapper">
+                <h2 class="section-title light-title" data-aos="fade-right">
+                    <i class="fas fa-comments"></i> <span data-i18n="commentsWall">留言墙</span>
+                </h2>
+                <div class="comments-banner">
+                    <div class="comments-container" id="scrolling-comments">
+                        <!-- Comments will be loaded dynamically -->
+                        <div class="loading-banner">Loading comments...</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Visualization Section -->
+        <section class="statistics" id="data-analysis">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-right">
+                    <i class="fas fa-chart-pie"></i> <span data-i18n="dataAnalysis">数据分析</span>
+                </h2>
+                <div class="charts-container">
+                    <div class="chart-card" data-aos="fade-up">
+                        <h3 data-i18n="categoryDistribution">职业类别分布</h3>
+                        <canvas id="category-chart"></canvas>
+                    </div>
+                    <div class="chart-card" data-aos="fade-up" data-aos-delay="100">
+                        <h3 data-i18n="perceptionDistribution">感知指数分布</h3>
+                        <canvas id="perception-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Realtime Activity Section -->
+        <section class="realtime-updates" id="recent-activity">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-right">
+                    <i class="fas fa-bolt"></i> <span data-i18n="realtimeActivity">实时动态</span>
+                </h2>
+                <div id="activity-feed" class="activity-feed">
+                    <div class="loading" data-i18n="loading">加载中...</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Profession Details Modal -->
+    <div id="profession-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="profession-details" class="profession-details">
+                <div class="profession-header">
+                    <h2 class="profession-title"></h2>
+                    <span class="category-badge"></span>
+                </div>
+                <div class="profession-description"></div>
+                <div class="agi-awareness-section">
+                    <h3 data-i18n="agiAwarenessQuestion">该职业对AGI的感知程度如何？</h3>
+                    <p class="slider-instruction" data-i18n="sliderInstruction">拖动滑块来选择您对该职业对AGI的感知程度的评估</p>
+                    
+                    <div class="perception-slider-container">
+                        <div class="percentage-display">
+                            <span class="percentage-value">0%</span>
+                        </div>
+                        
+                        <div class="perception-slider-wrapper">
+                            <input type="range" min="0" max="100" value="0" class="perception-slider" id="agi-perception-slider">
+                            <div class="perception-slider-track"></div>
+                            <div class="slider-thumb" id="slider-thumb"></div>
+                        </div>
+                        
+                        <div class="perception-levels">
+                            <div class="perception-level" data-range="0-25">
+                                <div class="level-label" data-i18n="levelBasic">初步接触 (0-25%)</div>
+                                <div class="level-description" data-i18n="levelBasicDesc">仅能在人类指导下执行特定任务</div>
+                            </div>
+                            <div class="perception-level" data-range="26-50">
+                                <div class="level-label" data-i18n="levelIntermediate">基础认知 (26-50%)</div>
+                                <div class="level-description" data-i18n="levelIntermediateDesc">具有多领域能力，但仍需要人类辅助</div>
+                            </div>
+                            <div class="perception-level" data-range="51-75">
+                                <div class="level-label" data-i18n="levelAdvanced">实践应用 (51-75%)</div>
+                                <div class="level-description" data-i18n="levelAdvancedDesc">展现自主学习能力，接近人类水平</div>
+                            </div>
+                            <div class="perception-level" data-range="76-100">
+                                <div class="level-label" data-i18n="levelExpert">深度理解 (76-100%)</div>
+                                <div class="level-description" data-i18n="levelExpertDesc">具备通用智能，能自主解决复杂问题</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="vote-button-container">
+                        <button id="submit-perception" class="vote-button" data-i18n="submitRating">提交评分</button>
+                    </div>
+                </div>
+                <div class="stats-section">
+                    <div class="current-rating">
+                        <h4 data-i18n="currentRating">当前评分</h4>
+                        <div class="rating-display"></div>
+                    </div>
+                    <div class="total-votes">
+                        <h4 data-i18n="ratingParticipants">参与评分人数</h4>
+                        <div class="votes-count"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Profession Modal -->
+    <div id="add-profession-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 data-i18n="addNewProfession">添加新职业</h2>
+            <form id="add-profession-form">
+                <div class="form-group">
+                    <label for="profession-category" data-i18n="professionCategory">职业类别</label>
+                    <select id="profession-category" required>
+                        <option value="" data-i18n="selectCategory">请选择类别</option>
+                        <!-- Categories will be populated dynamically by JavaScript -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="profession-name" data-i18n="professionName">职业名称</label>
+                    <input type="text" id="profession-name" placeholder="" required>
+                </div>
+                <div class="form-group">
+                    <label for="profession-description" data-i18n="professionDescription">职业描述</label>
+                    <textarea id="profession-description" placeholder=""></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="cancel-button" onclick="closeModals()" data-i18n="cancel">取消</button>
+                    <button type="submit" class="submit-button" data-i18n="submit">提交</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Back to top button -->
+    <button id="back-to-top" class="back-to-top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Toast container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module" src="index.js"></script>
+</body>
+</html>
