@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Under Construction</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Main container */
+        .container {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 90%;
+        }
+
+        /* Wave animation container */
+        .wave-container {
+            margin-bottom: 2rem;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Main title with wave effect */
+        .wave-text {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Individual characters for wave animation */
+        .wave-text span {
+            display: inline-block;
+            animation: wave 2s ease-in-out infinite;
+            animation-delay: calc(var(--i) * 0.1s);
+        }
+
+        /* Wave animation keyframes */
+        @keyframes wave {
+            0%, 40%, 100% {
+                transform: translateY(0);
+            }
+            20% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Subtitle styles */
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ffffff;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* Progress bar container */
+        .progress-container {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 3px;
+            margin-bottom: 2rem;
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            width: 0%;
+            height: 20px;
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            border-radius: 8px;
+            transition: width 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Progress bar shimmer effect */
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+
+        /* Status text */
+        .status-text {
+            font-size: 1rem;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+
+        /* Contact info */
+        .contact-info {
+            font-size: 0.9rem;
+            color: #ffffff;
+            opacity: 0.7;
+            margin-top: 2rem;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .wave-text {
+                font-size: 2rem;
+            }
+            .subtitle {
+                font-size: 1rem;
+            }
+            .container {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Loading dots animation */
+        .loading-dots {
+            display: inline-block;
+        }
+
+        .loading-dots span {
+            animation: dots 1.5s infinite;
+            animation-delay: calc(var(--i) * 0.2s);
+        }
+
+        @keyframes dots {
+            0%, 20% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Wave animated title -->
+        <div class="wave-container">
+            <h1 class="wave-text" id="waveText">Website Under Construction</h1>
+        </div>
+
+        <!-- Subtitle -->
+        <p class="subtitle">We're working hard to bring you something amazing!</p>
+
+        <!-- Progress bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <!-- Status text -->
+        <p class="status-text">
+            Current Status: <span class="loading-dots">
+                <span style="--i: 0">.</span>
+                <span style="--i: 1">.</span>
+                <span style="--i: 2">.</span>
+            </span>
+        </p>
+
+        <!-- Contact information -->
+        <div class="contact-info">
+            <p>Expected completion: Coming Soon</p>
+        </div>
+    </div>
+
+    <script>
+        // Console output for debugging
+        // console.log('Website Under Construction Page Loaded');
+        // console.log('Initializing wave animation...');
+        // console.log('Setting up progress bar simulation...');
+
+        // Function to create wave effect for text
+        function createWaveText() {
+            const waveText = document.getElementById('waveText');
+            const text = waveText.textContent;
+            waveText.innerHTML = '';
+            
+            // Split text into individual characters and add wave animation
+            for (let i = 0; i < text.length; i++) {
+                const span = document.createElement('span');
+                span.textContent = text[i];
+                span.style.setProperty('--i', i);
+                waveText.appendChild(span);
+            }
+            
+            // console.log('Wave animation applied to text with', text.length, 'characters');
+        }
+
+        // Function to simulate progress bar
+        function simulateProgress() {
+            const progressBar = document.getElementById('progressBar');
+            let progress = 0;
+            
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 85) {
+                    progress = 85; // Cap at 85% to show it's still in progress
+                }
+                
+                progressBar.style.width = progress + '%';
+                // console.log('Progress updated:', Math.round(progress) + '%');
+                
+                if (progress >= 85) {
+                    clearInterval(interval);
+                    // console.log('Progress simulation completed at 85%');
+                }
+            }, 1000);
+        }
+
+        // Function to update status messages
+        function updateStatus() {
+            const statusMessages = [
+                'Setting up infrastructure',
+                'Designing user interface',
+                'Implementing features',
+                'Testing functionality',
+                'Optimizing performance',
+                'Finalizing content'
+            ];
+            
+            let currentIndex = 0;
+            const statusElement = document.querySelector('.status-text');
+            
+            setInterval(() => {
+                statusElement.innerHTML = `Current Status: ${statusMessages[currentIndex]} <span class="loading-dots">
+                    <span style="--i: 0">.</span>
+                    <span style="--i: 1">.</span>
+                    <span style="--i: 2">.</span>
+                </span>`;
+                
+                // console.log('Status updated:', statusMessages[currentIndex]);
+                
+                currentIndex = (currentIndex + 1) % statusMessages.length;
+            }, 3000);
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // console.log('DOM fully loaded and parsed');
+            
+            // Create wave text effect
+            createWaveText();
+            
+            // Start progress simulation
+            setTimeout(() => {
+                simulateProgress();
+            }, 1000);
+            
+            // Start status updates
+            setTimeout(() => {
+                updateStatus();
+            }, 2000);
+            
+            // console.log('All animations and simulations initialized successfully');
+        });
+
+        // Additional console outputs for monitoring
+        window.addEventListener('load', function() {
+            // console.log('Page fully loaded including all resources');
+            // console.log('Wave animation is running');
+            // console.log('Progress bar simulation is active');
+            // console.log('Status updates are scheduled');
+        });
+
+        // Error handling
+        window.addEventListener('error', function(e) {
+            console.error('Error occurred:', e.error);
+        });
+    </script>
+</body>
+</html> 
